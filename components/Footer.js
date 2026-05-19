@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { BookOpen, Mail, Phone } from "lucide-react";
+import { CONTACT_INFO } from '../constants/contact'; // Note: Adjust path if needed
+
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -10,7 +12,6 @@ export default function Footer() {
     { label: "Activities", href: "/activity" },
     { label: "Contact", href: "/contact" },
     { label: "Register", href: "/register" },
-    { label: "Contributors", href: "/contributors" },
   ];
 
   const sectionLinks = [
@@ -95,14 +96,14 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3 text-slate-400">
                 <Phone className="h-4 w-4 text-purple-300" />
-                <span>+91-8100483993</span>
+                <span>{CONTACT_INFO.phone}</span>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="mt-12 flex flex-col gap-4 border-t border-slate-800/80 pt-6 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-          <p>&copy; {currentYear} Learnova. All rights reserved.</p>
+          <p>(c) {currentYear} Learnova. All rights reserved.</p>
           <div className="flex flex-wrap items-center gap-4 text-xs uppercase tracking-[0.2em] text-slate-500">
             <span className="text-purple-300/80">Trusted by educators</span>
             <span className="hidden h-1 w-1 rounded-full bg-slate-700 sm:inline-block" />
