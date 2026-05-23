@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Navbar } from "./Navbar";
+import { safeLocalStorageGet, safeLocalStorageSet } from "@/lib/storage";
 
 const SmartNoticeBoard = () => {
   const { user } = useAuth();
@@ -189,20 +190,13 @@ const SmartNoticeBoard = () => {
 
       // Load read notices from localStorage (defensive parsing)
       const userId = getUserId();
-      const savedReadNotices = localStorage.getItem(`readNotices_${userId}`);
-      if (savedReadNotices) {
-        try {
-          const parsed = JSON.parse(savedReadNotices);
-          if (Array.isArray(parsed)) {
-            setReadNotices(new Set(parsed));
-          } else {
-            // If stored value is malformed, remove it
-            localStorage.removeItem(`readNotices_${userId}`);
-          }
-        } catch (err) {
-          console.error("Failed to parse read notices from localStorage:", err);
-          localStorage.removeItem(`readNotices_${userId}`);
-        }
+      const storageKey = `readNotices_${userId}`;
+      const parsed = safeLocalStorageGet(storageKey, []);
+      
+      if (Array.isArray(parsed)) {
+        setReadNotices(new Set(parsed));
+      } else {
+        setReadNotices(new Set());
       }
     } else {
       setLoading(false);
@@ -252,11 +246,9 @@ const SmartNoticeBoard = () => {
       const newReadNotices = new Set(readNotices);
       newReadNotices.add(noticeId);
       setReadNotices(newReadNotices);
+      
       const userId = getUserId();
-      localStorage.setItem(
-        `readNotices_${userId}`,
-        JSON.stringify([...newReadNotices])
-      );
+      safeLocalStorageSet(`readNotices_${userId}`, [...newReadNotices]);
     }
   };
 
@@ -265,11 +257,9 @@ const SmartNoticeBoard = () => {
       const newReadNotices = new Set(readNotices);
       newReadNotices.delete(noticeId);
       setReadNotices(newReadNotices);
+      
       const userId = getUserId();
-      localStorage.setItem(
-        `readNotices_${userId}`,
-        JSON.stringify([...newReadNotices])
-      );
+      safeLocalStorageSet(`readNotices_${userId}`, [...newReadNotices]);
     }
   };
 
