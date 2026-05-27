@@ -48,7 +48,8 @@ export const POST = withErrorHandler(async (request) => {
   const userProfile = await getUserProfile(decodedToken.uid);
   const instituteId = userProfile?.instituteId || null;
 
-  // Use authoritative, verified data from JWT token (decodedToken) to prevent impersonation/spoofing
+  // Use authoritative, verified data from Firebase JWT token (decodedToken) to completely prevent
+  // client-supplied parameter spoofing and impersonation attacks.
   const resolvedName = userProfile?.fullName || decodedToken.name || decodedToken.displayName || decodedToken.email?.split("@")[0] || "Unknown User";
   const resolvedEmail = userProfile?.email || decodedToken.email || "unknown@learnova.edu";
 
