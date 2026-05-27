@@ -34,12 +34,14 @@ jobs:
               state: 'open'
             });
 
-            // Query ALL open PRs in the repository
-            const allPRs = await github.rest.pulls.list({
+            // Query ALL open PRs in the repository using pagination to prevent 30-item default limits
+            const allPRsData = await github.paginate(github.rest.pulls.list, {
               owner: context.repo.owner,
               repo: context.repo.repo,
-              state: 'open'
+              state: 'open',
+              per_page: 100
             });
+            const allPRs = { data: allPRsData };
 
             // Filter open PRs by this contributor
             const prs = { data: allPRs.data.filter(pr => pr.user && pr.user.login === author) };
