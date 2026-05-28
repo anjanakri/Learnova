@@ -31,6 +31,12 @@ import AttendanceChart from "./AttendanceChart";
 
 import { weeklySchedule } from "@/constants/mockData";
 import { getUserActivities } from "@/services/activityService";
+import AttendanceAnalytics from "./dashboard/AttendanceAnalytics";
+import StreakCounter from "./gamification/StreakCounter";
+import XpProgressBar from "./gamification/XpProgressBar";
+import BadgeGallery from "./gamification/BadgeGallery";
+import ComplaintForm from "@/components/ComplaintForm";
+import StreakTracker from "@/components/ui/StreakTracker";
 
 const AttendanceHeatmap = dynamic(() => import("./AttendanceHeatmap"), {
   ssr: false,
@@ -41,13 +47,6 @@ const AttendanceCalendar = dynamic(() => import("./AttendanceCalendar"), {
   ssr: false,
   loading: () => <ChartSkeleton variant="heatmap" />,
 });
-
-import AttendanceAnalytics from "./dashboard/AttendanceAnalytics";
-import StreakCounter from "./gamification/StreakCounter";
-import XpProgressBar from "./gamification/XpProgressBar";
-import BadgeGallery from "./gamification/BadgeGallery";
-import ComplaintForm from "@/components/ComplaintForm";
-import StreakTracker from "@/components/ui/StreakTracker";
 
 const StudentDashboard = () => {
   const { user } = useAuth();
